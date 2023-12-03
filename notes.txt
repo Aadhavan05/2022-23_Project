@@ -1,0 +1,126 @@
+database name: hostel
+    
+    table: students
+        create table students
+        ( userName varchar(30) NOT NULL,
+        email varchar(50) NOT NULL UNIQUE,
+        regNo varchar(9) PRIMARY KEY,
+        gender varchar(10) NOT NULL,
+        block varchar(5) NOT NULL,
+        roomNo int(6) NOT NULL,
+        password varchar(40) NOT NULL );
+
+    table: admins
+        create table admins
+        ( userName varchar(30) NOT NULL,
+        email varchar(50) PRIMARY KEY,
+        gender varchar(10) NOT NULL,
+        pin int(4) NOT NULL, 
+        password varchar(40) NOT NULL );
+
+    table: mens_hostel
+        create table mens_hostel
+        (id int AUTO_INCREMENT PRIMARY KEY,
+        regNo varchar(9) NOT NULL,
+        name varchar(30) NOT NULL,
+        block varchar(5) NOT NULL,
+        roomNo int(6) NOT NULL,
+        service varchar(20) NOT NULL,
+        day1 varchar(20) NOT NULL,
+        day1slot varchar(30) NOT NULL,
+        day2 varchar(20) NOT NULL,
+        day2slot varchar(30) NOT NULL,
+        day3 varchar(20) NOT NULL,
+        day3slot varchar(30) NOT NULL,
+        complaints varchar(350),
+        registered date NOT NULL,
+        status varchar(30) NOT NULL,
+        comments varchar(600) );
+
+    table: womens_hostel
+        create table womens_hostel
+        (id int AUTO_INCREMENT PRIMARY KEY,
+        regNo varchar(9) NOT NULL,
+        name varchar(30) NOT NULL,
+        block varchar(5) NOT NULL,
+        roomNo int(6) NOT NULL,
+        service varchar(20) NOT NULL,
+        day1 varchar(20) NOT NULL,
+        day1slot varchar(30) NOT NULL,
+        day2 varchar(20) NOT NULL,
+        day2slot varchar(30) NOT NULL,
+        day3 varchar(20) NOT NULL,
+        day3slot varchar(30) NOT NULL,
+        complaints varchar(350),
+        registered date NOT NULL,
+        status varchar(30) NOT NULL,
+        comments varchar(600) );
+
+
+
+
+function show() {
+  var fromSelect = document.getElementsByName("from");
+  var toSelect = document.getElementsByName("to");
+  
+  // Get the selected option from the "From Time" dropdown
+  var selectedFromTime = fromSelect.value;
+  
+  // Remove all options from the "To Time" dropdown
+  while (toSelect.options.length > 0) {
+    toSelect.options.remove(0);
+  }
+  
+  // Add a default hidden option to the "To Time" dropdown
+  var defaultOption = document.createElement("option");
+  defaultOption.text = "-- Select To Time --";
+  defaultOption.value = "";
+  defaultOption.hidden = true;
+  toSelect.add(defaultOption);
+  
+  // Add options to the "To Time" dropdown based on the selected "From Time"
+  switch (selectedFromTime) {
+    case "10:00 AM":
+      toSelect.add(new Option("11:00 AM", "11:00 AM"));
+      toSelect.add(new Option("12:00 PM", "12:00 PM"));
+      toSelect.add(new Option("01:00 PM", "01:00 PM"));
+      toSelect.add(new Option("02:00 PM", "02:00 PM"));
+      toSelect.add(new Option("03:00 PM", "03:00 PM"));
+      toSelect.add(new Option("04:00 PM", "04:00 PM"));
+      toSelect.add(new Option("05:00 PM", "05:00 PM"));
+      toSelect.add(new Option("06:00 PM", "06:00 PM"));
+      toSelect.add(new Option("07:00 PM", "07:00 PM"));
+      break;
+    case "11:00 AM":
+      toSelect.add(new Option("12:00 PM", "12:00 PM"));
+      toSelect.add(new Option("1:00 PM", "1:00 PM"));
+      toSelect.add(new Option("02:00 PM", "02:00 PM"));
+      toSelect.add(new Option("03:00 PM", "03:00 PM"));
+      toSelect.add(new Option("04:00 PM", "04:00 PM"));
+      toSelect.add(new Option("05:00 PM", "05:00 PM"));
+      toSelect.add(new Option("06:00 PM", "06:00 PM"));
+      toSelect.add(new Option("07:00 PM", "07:00 PM"));
+      break;
+    case "12:00 PM":
+      toSelect.add(new Option("1:00 PM", "1:00 PM"));
+      toSelect.add(new Option("2:00 PM", "2:00 PM"));
+      toSelect.add(new Option("03:00 PM", "03:00 PM"));
+      toSelect.add(new Option("04:00 PM", "04:00 PM"));
+      toSelect.add(new Option("05:00 PM", "05:00 PM"));
+      toSelect.add(new Option("06:00 PM", "06:00 PM"));
+      toSelect.add(new Option("07:00 PM", "07:00 PM"));
+      break;
+    // Add more cases for other "From Time" options as needed
+    default:
+      // If no "From Time" is selected, show the default hidden option in "To Time"
+      toSelect.selectedIndex = 0;
+      break;
+  }
+}
+
+
+SELECT status, COALESCE(COUNT(*), 0) AS count
+FROM mens_hostel
+WHERE status IN ('requested', 'assigned', 'completed')
+GROUP BY status;
+         
